@@ -1,0 +1,40 @@
+// Implementation file
+
+#include <iostream>
+#include "Car.h"
+
+using namespace std;
+
+Car::Car(int model = 0, string style = "")
+{
+  yearModel = model;
+  make = style;
+  speed = 0;
+}
+
+int Car::getModel() const
+{
+  return yearModel;
+}
+
+string Car::getMake() const
+{
+  return make;
+}
+
+int Car::getSpeed() const
+{
+  return speed;
+}
+
+void Car::accelerate()
+{
+  cout << "\n\nVroooom!\n" ;
+  speed += 5;
+}
+
+void Car::brake()
+{
+  cout << "\n\nScreeeech!\n" ;
+  speed -= 5;
+}

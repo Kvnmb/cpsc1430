@@ -1,0 +1,128 @@
+// Implementation file
+
+#include <iostream>
+#include "IntegerSet.h"
+
+using namespace std;
+
+IntegerSet IntegerSet::unionOfsets(IntegerSet B)
+{
+  IntegerSet C;
+
+  cout << "\n\nUnion of A and B is:\n" ;
+  
+  for(int x = 0; x < 100; x++){
+    if((arr[x] != B.arr[x]) || (arr[x] == 1)){
+      C.arr[x] = 1;
+    }
+  }
+
+  C.printSet();
+  return C;
+}
+
+IntegerSet IntegerSet::intersectionOfsets(IntegerSet B)
+{
+  IntegerSet C;
+
+  cout << "\n\nIntersection of A and B is:\n" ;
+  
+  for(int x = 0; x < 100; x++){
+    if((arr[x] == B.arr[x]) && (arr[x] == 1)){
+      C.arr[x] = 1;
+    }
+  }
+  
+  C.printSet();
+  return C;
+}
+
+void IntegerSet::insertElement()
+{
+  int x = 0;
+  cout << "\n\nWhat element would you like to insert into the set?: ";
+  cin >> x;
+  inputSet(x);
+  cout << "\nThe set is now:\n" ;
+  printSet();
+}
+
+void IntegerSet::deleteElement(int x)
+{
+  if(validEntry(x) == true){
+    arr[x-1] = 0;
+  cout << "\n\nDeleting " << x << " from the set...\nThe set is now:\n" ;
+  printSet();
+  }else{
+    cout << "\nInvalid insert of " << x << " attempted!" ;
+  }
+}
+
+void IntegerSet::printSet()
+{
+  cout << "\n{ ";
+  for(int x = 0; x < 100; x++){
+    if(arr[x] == 1){
+      cout << x << " ";
+    }
+  }
+  cout << "}";
+}
+
+void IntegerSet::isEqualTo(IntegerSet B)
+{
+  bool flag = true;
+
+  for(int x = 0; x < 100; x++){
+    if(arr[x] != B.arr[x]){
+      flag = false;
+      cout << "\nSet A is not equal to set B";
+    }
+  }
+  if(flag == true)
+    cout << "\nSet A is equal to set B";
+}
+
+void IntegerSet::emptySet()
+{
+  for(int x = 0; x < 100; x++){
+    arr[x] = 0;
+  }
+}
+
+void IntegerSet::inputSet(int x)
+{
+  if(validEntry(x) == true){
+    arr[x-1] = 1;
+  }else{
+    cout << "\nInvalid insert of " << x << " attempted!" ;
+  }
+}
+
+IntegerSet::IntegerSet()
+{
+  for(int x = 0; x < 100; x++){
+    arr[x] = 0;
+  }
+}
+
+IntegerSet::IntegerSet(int size, int array[])
+{
+  for(int x = 0; x < 100; x++){
+    arr[x] = 0;
+  }
+
+  int temp;
+  for(int x = 0; x < size; x++){
+    temp = array[x];
+    arr[temp] = 1;
+  }
+}
+
+bool IntegerSet::validEntry(int x)
+{
+  if(x > 0 && x <= 100){
+    return true;
+  }else{return false;
+  }
+}

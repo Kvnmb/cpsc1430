@@ -1,0 +1,82 @@
+// Kevin Bui
+// array.cpp
+// Purpose: creates a dynamic 2D array to hold user
+// inputs and sum columns and rows
+// Input: Integers
+// Processing: addition of elements in array and dynamic allocation
+// Output: display of array and sums of rows and columns
+
+#include <iostream>
+using namespace std;
+
+int main(int argc, char *argv[])
+{
+  int row = 0, col = 0;
+  int **arr = nullptr; // to create array of pointers to arrays
+
+  // Inputs for array size
+  while(row == 0){ // to ensure that the array is valid
+    cout << "\n\nInput row:\n" ;
+    cin >> row;
+  }
+
+  while(col == 0){
+    cout << "\n\nInput col:\n" ;
+    cin >> col;
+  }
+  
+  arr = new int*[row]; // dynamic allocation to array of pointers (row memory)
+
+  for(int z = 0; z < row; z++){
+    arr[z] = new int[col]; // column memory allocation
+  }
+
+  // loop to get inputs for array elements
+  for(int x = 0; x < row; x++){
+    for(int y = 0; y < col; y++){
+      cout << "\n\nInput number at row " << (x + 1)
+           << " col " << (y + 1) << endl;
+      cin >> arr[x][y];
+    }
+  }
+
+  cout << endl << endl;
+
+  // outputs all the numbers inputted
+  for(int x = 0; x < row; x++){
+    for(int y = 0; y < col; y++){
+      cout << arr[x][y] << " " ;
+    }
+    cout << endl;
+  }
+
+  cout << endl << endl;
+
+  // outputs sums of each row
+  for(int x = 0; x < row; x++){
+    cout << "Sum of row " << (x + 1) << " is ";
+    int sum = 0;
+    for(int y = 0; y < col; y++){
+      sum += arr[x][y];
+    }
+    cout << sum << endl;
+  }
+
+  //outputs sums of each column
+  for(int x = 0; x < col; x++){
+    cout << "Sum of col " << (x + 1) << " is ";
+    int sum = 0;
+    for(int y = 0; y < row; y++){
+      sum += arr[y][x];
+    }
+    cout << sum << endl;
+ }
+
+  cout << endl << endl;
+  
+  delete [] arr; // frees allocated memory
+  
+  arr = nullptr;
+
+  return 0;
+}

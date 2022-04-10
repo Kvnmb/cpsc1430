@@ -1,0 +1,25 @@
+// Header file for Car class
+
+#ifndef CAR_H
+#define CAR_H
+#include <string>
+
+class Car
+{
+ private:
+  int yearModel;
+  string make;
+  int speed;
+  Car(int, string); // constructor
+  
+public:
+
+  
+  getModel();
+  getMake();
+  getSpeed();
+  accelerate();
+  brake();
+};
+
+#endif

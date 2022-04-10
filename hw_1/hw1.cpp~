@@ -1,0 +1,245 @@
+// Kevin Bui
+// hw1.cpp
+// 1/23/22
+// Purpose: to create a program that displays COVID data of US states
+// Input: a text file, choice of menu options
+// Processing: Dynamic memory allocation to create arrays
+// Output: a functioning menu showing COVID statistics
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+struct State // struct to hold all the data in the files
+{
+  string date;
+  string name;
+  int fip;
+  int cases;
+  int deaths;
+};
+
+ifstream fileOpen(string &); // function to ask for/confirm valid input file,
+// string parameter is referenced to save file name for reopening file later
+
+void menu(); // function to display menu and its options
+
+void readFile(int, string, State *); // function that reads the txt file into
+// the dynamic array, parameters are the number of elements, the filename,
+// and the pointer
+
+void caseOne(int, State *); // function that displays covid info of all states,
+// parameters are the number of elements and the pointer
+
+void caseTwo(int, State *); // function that displays the covid info of states
+// with most cases, parameters are the number of elements and the pointer
+
+void caseThree(int, State *); // function that displays the covid info of
+// states with most deaths, parameters
+// are the number of elements and the pointer
+
+void caseFour(int, State *); // function that displays basic covid stats of
+// all the states, parameters are the number of elements and the pointer
+
+void display(int, State *); // function for entire program, shows menu and
+// asks user for menu option input
+
+int main()
+{
+  ifstream file; // file variable
+  int counter = 0; // counts how many lines/datapoints are in the file
+  string fileName; // stores name of the file
+  string temp; // string to store inputs from file while reading
+  State *ptr = nullptr; // pointer to the dynamic array
+  
+  file = fileOpen(fileName); // opens file
+
+  while(getline(file, temp)){ // counts how many lines are in the file
+    counter++;
+  }
+
+  file.close();
+
+  ptr = new State[counter]; // array created with exact amount of elements
+  // in the file
+
+  readFile(counter, fileName, ptr); // reads file into the array
+
+  display(counter, ptr); // holds menu options
+  
+  delete [] ptr; // deletes pointer array
+  ptr = nullptr;
+  
+  return 0;
+}
+
+ifstream fileOpen(string &fileName) // opens file
+{
+  ifstream file;
+  bool open = false;
+  
+  cout << "\n\n\nPlease enter the input file name: " ;
+
+  while(open == false){ // makes sure file is valid, else asks user to reinput
+    cin >> fileName;
+    file.open(fileName);
+    if(file){
+      open = true;
+    }else{
+      cout << "\n\nError opening the file, please try again: " ;
+    }
+  }
+  return file;
+}
+
+void menu() // displays options
+{
+    cout << "\n\n************Menu************"
+       << "\n1. Display the COVID info of all states"
+       << "\n2. Display the COVID info of the state that has the most cases"
+       << "\n3. Display the COVID info of the state that has the most deaths"
+       << "\n4. Display the statistics of all states"
+       << "\n5. Exit the program"
+         << "\nEnter your choice: " ;
+}
+
+void readFile(int counter, string fileName, State *ptr) // reads file into array
+{
+  ifstream file;
+
+  file.open(fileName);
+  int i = 0;
+  char temp; // stores the comma separating the integers
+  while(i < counter){ // reads files into each part of struct
+    getline(file, ptr[i].date, ','); // stores the data up until the comma
+    getline(file, ptr[i].name, ',');
+    file >> ptr[i].fip >> temp >> ptr[i].cases >> temp >> ptr[i].deaths;
+    i++;
+  }
+  file.close();
+}
+
+void caseOne( int counter, State *ptr) // displays all states
+{
+  cout << endl << endl << setw(25) << right << "**States**"
+       << setw(20) << right << "**Cases**"
+       << setw(20) << right << "**Deaths**" << endl;
+  for(int x = 0; x < counter; x++){
+    cout << setw(25) << right << ptr[x].name << " "
+         << setw(20) << right << ptr[x].cases << " "
+         << setw(20) << right << ptr[x].deaths << endl;
+  }
+}
+
+void caseTwo(int counter, State *ptr) // shows state with most cases
+{
+  State temp;
+  temp.name = ptr[0].name; // set temp to the first element
+  temp.cases = ptr[0].cases;
+  for(int x = 1; x < counter; x++){ // searches for a state with greater cases
+    if(temp.cases < ptr[x].cases){
+      temp.name = ptr[x].name; // set temp to the new element
+      temp.cases = ptr[x].cases;
+    }
+  }
+  cout << endl << endl << temp.name << " has the most cases: "
+       << temp.cases << endl << endl;
+}
+
+void caseThree(int counter, State *ptr) // shows state with most deaths
+{
+  State temp;
+  temp.name = ptr[0].name; // sets temp to the first element
+  temp.deaths = ptr[0].deaths;
+  for(int x = 1; x < counter; x++){ // searches for a state with greater deaths
+    if(temp.deaths < ptr[x].deaths){
+      temp.name = ptr[x].name; // sets temp to the new element
+      temp.deaths = ptr[x].deaths;
+    }
+  }
+  cout << endl << endl << temp.name << " has the most deaths: "
+       << temp.deaths << endl << endl;
+}
+
+void caseFour(int counter, State *ptr) // shows general covid stats
+{
+  int caseSum = 0;
+  int avg = 0;
+  double deathSum = 0;
+  double deathRate = 0;
+  
+  for(int x = 0; x < counter; x++){ // adds up the total cases
+    caseSum += ptr[x].cases;
+  }
+  avg = caseSum / counter; // finds an average between cases and states
+
+  cout << "\n\n(a) There are " << caseSum << " cases in total, " << avg
+       << " on average\n" ;
+
+  for(int x = 0; x < counter; x++){ // adds up total deaths
+    deathSum += ptr[x].deaths;
+  }
+  
+  avg = deathSum / counter; // finds average between cases and deaths
+  
+  cout << "\n(b) There are " << deathSum << " deaths in total, " << avg
+       << " on average\n" ;
+
+  deathRate = deathSum / caseSum;
+  deathRate *= 100; // multiply to get a percentage
+  
+  cout << "\n(c) The average death rate for all states is "
+       << setprecision(2) << fixed << deathRate << "%" ; // sets to two decimals
+
+  string name;
+  double tempRate;
+  name = ptr[0].name;
+  double x, y; // converts ints into doubles
+  x = ptr[0].deaths;
+  y = ptr[0].cases;
+  tempRate = x / y;
+  
+  for(int i = 1; i < counter; i++){ // checks for highest average death rate
+    if(ptr[i].deaths > 100){ // confirms deaths are over 100
+      x = ptr[i].deaths;
+      y = ptr[i].cases;
+      if(tempRate < (x / y)){
+        tempRate = (x / y);
+        name = ptr[i].name; // sets tempRate and name to the new values
+      }
+    }
+  }
+
+  tempRate *= 100; // converts tempRate to a percentage
+  cout << "\n\n(d) Among all states that have more than 100 deaths, "
+       << name << " has the highest death rate of "
+       << tempRate << "%\n" ;
+}
+
+void display(int counter, State *ptr) // displays program and options
+{
+  char choice = 0;
+  while(choice != 5){
+    menu();
+    cin >> choice;
+    
+    switch (choice)
+      {
+      case '1': caseOne(counter, ptr);
+        break;
+      case '2': caseTwo(counter, ptr);
+        break;
+      case '3': caseThree(counter, ptr);
+        break;
+      case '4': caseFour(counter, ptr);
+        break;
+      case '5': choice = 5; // ends the program
+        break;
+      default: cout << "\n\nPlease input a valid number: " ;
+      }
+  }
+}
+    

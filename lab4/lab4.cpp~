@@ -1,0 +1,24 @@
+#include <iostream>
+#include "Car.h"
+
+using namespace std;
+
+int main()
+{
+  Car test(2020, "Honda Civic");
+
+  cout << "\n\nThe car is a " << test.getModel() << " "
+       << test.getMake() << " and the current speed is " << test.getSpeed();
+
+  for(int x = 1; x <= 5; x++){
+    test.accelerate();
+    cout << "\nThe speed is now " << test.getSpeed();
+  }
+
+  for(int x = 1; x <= 5; x++){
+    test.brake();
+    cout << "\nThe speed is now " << test.getSpeed();
+  }
+  
+  return 0;
+}

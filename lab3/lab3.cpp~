@@ -1,0 +1,94 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Order
+{
+private:
+  string name;
+  int itemID;
+  double total;
+  bool status;
+public:
+  void setName(string);
+  void setID(int);
+  void setTotal(double);
+  void setStatus(bool);
+
+  string getName() const
+  {return name; }
+
+  int getID() const
+  {return itemID; }
+
+  double getTotal() const
+  {return total; }
+
+  bool getStatus() const
+  {return status; }
+
+  Order();
+};
+
+
+// FUNCTIONS                                                                                                                                                                                                                     
+
+Order::Order()
+{
+  name = "";
+  itemID = 0;
+  total = 0.0;
+  status = false;
+
+  cout << "\n\nYou have opened an order! Current contents of the order:\n\n" ;
+  cout << "Name: " << name << "\nItem ID: " << itemID << "\nTotal: " << total
+       << "\nStatus: " << status << endl;
+}
+
+void Order::setName(string input)
+{
+  name = input;
+  cout << "\nThe customer's name has been changed." ;
+}
+
+void Order::setID(int input)
+{
+  itemID = input;
+  cout << "\nThe item ID has been changed." ;
+}
+
+void Order::setTotal(double input)
+{
+  total = input;
+  cout << "\nThe total amount has been changed." ;
+}
+
+void Order::setStatus(bool input)
+{
+  status = input;
+  cout << "\nThe order status has been changed." ;
+}
+
+
+int main()
+{
+  Order newCustomer;
+
+  newCustomer.setName("William");
+  newCustomer.setID(22);
+  newCustomer.setTotal(27.4);
+  newCustomer.setStatus(false);
+
+  cout << "\n\nThe customer's name is " << newCustomer.getName();
+  cout << "\nThe item ID is " << newCustomer.getID();
+  cout << "\nThe order total is " << newCustomer.getTotal();
+  cout << "\nThe status of the order is " ;
+
+  if(newCustomer.getStatus() == true)
+    cout << "active" << endl;
+  else
+    cout << "inactive" << endl;
+  
+  return 0;
+}

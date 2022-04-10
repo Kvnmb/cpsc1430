@@ -1,0 +1,10 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+  cout << "\n\nHello World!\n\n"; // prints out the statement "Hello World!" with spacing lines
+  
+  return 0;
+}

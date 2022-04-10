@@ -1,0 +1,12 @@
+// Kevin Bui
+// lab5.cpp
+// 2/8/22
+// Purpose: to create a game that saves numbers to a dynamic array and compare
+// two players' numbers to see which is larger
+// Input: Name and numbers
+// Processing: comparing the indexes of two arrays, dynamic allocation
+// Output: prints name of winner
+
+#include <iostream>
+
+using namespace std;
